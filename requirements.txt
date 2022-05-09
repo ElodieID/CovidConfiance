@@ -6,4 +6,4 @@ scikit_learn
 seaborn
 squarify
 streamlit
-plotly.express
+plotly
