@@ -6,6 +6,8 @@ import seaborn as sns
 import squarify
 import re
 import prince
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
 import streamlit as st
 import warnings
 warnings.filterwarnings('ignore')
@@ -55,64 +57,65 @@ st.markdown(
 @st.cache(allow_output_mutation=True)
 def load_data2():
     # Import de la liste des variabels avec leurs définitions
+    #df_KeyLab = pd.read_excel("C:\Work\COVID\Key_Label.xlsx", index_col = 0)
     df_KeyLab = pd.read_excel("Key_Label.xlsx", index_col = 0) 
     Vl = dict(zip(df_KeyLab.index, df_KeyLab["Label 1"]))
     return Vl
          
 @st.cache(allow_output_mutation=True)
 def load_data3():
-    data3_AT = pd.read_csv('ndf_AT.csv',index_col=0, sep=";")
-    data3_AU = pd.read_csv('ndf_AU.csv',index_col=0, sep=";")
-    data3_BR = pd.read_csv('ndf_BR.csv',index_col=0, sep=";")
-    data3_DE = pd.read_csv('ndf_DE.csv',index_col=0, sep=";")
-    data3_FR = pd.read_csv('ndf_FR.csv',index_col=0, sep=";")
-    data3_IT = pd.read_csv('ndf_IT.csv',index_col=0, sep=";")
-    data3_NZ = pd.read_csv('ndf_NZ.csv',index_col=0, sep=";")
-    data3_PL = pd.read_csv('ndf_PL.csv',index_col=0, sep=";")
-    data3_SE = pd.read_csv('ndf_SE.csv',index_col=0, sep=";")
-    data3_UK = pd.read_csv('ndf_UK.csv',index_col=0, sep=";")
-    data3_US = pd.read_csv('ndf_US.csv',index_col=0, sep=";")
-    data3 = pd.concat([data3_AT, data3_AU])
-    data3 = pd.concat([data3, data3_BR])
-    data3 = pd.concat([data3, data3_DE])
-    data3 = pd.concat([data3, data3_FR])
-    data3 = pd.concat([data3, data3_IT])
-    data3 = pd.concat([data3, data3_NZ])
-    data3 = pd.concat([data3, data3_PL])
-    data3 = pd.concat([data3, data3_SE])
-    data3 = pd.concat([data3, data3_UK])
-    data3 = pd.concat([data3, data3_US])
-    data3 = pd.replace('',  float("nan"))
-    data3 = pd.replace('NA',  float("nan"))
-    data3 = pd.replace('(NA)',  float("nan"))
-    data3 = pd.replace(99,  float("nan"))
+    data3_AT = pd.read_csv('ndf_AT.csv',sep = ";",index_col=0)
+    data3_AU = pd.read_csv('ndf_AU.csv',sep = ";",index_col=0)
+    data3_BR = pd.read_csv('ndf_BR.csv',sep = ";",index_col=0)
+    data3_DE = pd.read_csv('ndf_DE.csv',sep = ";",index_col=0)
+    data3_FR = pd.read_csv('ndf_FR.csv',sep = ";",index_col=0)
+    data3_IT = pd.read_csv('ndf_IT.csv',sep = ";",index_col=0)
+    data3_NZ = pd.read_csv('ndf_NZ.csv',sep = ";",index_col=0)
+    data3_PL = pd.read_csv('ndf_PL.csv',sep = ";",index_col=0)
+    data3_SE = pd.read_csv('ndf_SE.csv',sep = ";",index_col=0)
+    data3_UK = pd.read_csv('ndf_UK.csv',sep = ";",index_col=0)
+    data3_US = pd.read_csv('ndf_US.csv',sep = ";",index_col=0)
+    data3 = pd.concat([data3_AT,data3_AU])
+    data3 = pd.concat([data3,data3_BR])
+    data3 = pd.concat([data3,data3_DE])
+    data3 = pd.concat([data3,data3_FR])
+    data3 = pd.concat([data3,data3_IT])
+    data3 = pd.concat([data3,data3_NZ])
+    data3 = pd.concat([data3,data3_PL])
+    data3 = pd.concat([data3,data3_SE])
+    data3 = pd.concat([data3,data3_UK])
+    data3 = pd.concat([data3,data3_US])
+    data3 = data3.replace('',  float("nan"))
+    data3 = data3.replace('NA',  float("nan"))
+    data3 = data3.replace('(NA)',  float("nan"))
+    data3 = data3.replace(99,  float("nan"))
     data3.dropna(how='all', axis=1, inplace=True)
     return data3
 
 
 @st.cache(allow_output_mutation=True)
-def load_data1(Col_Select):
-    data1_AT = pd.read_csv('df_AT.csv',index_col=0, sep=";")
-    data1_AU = pd.read_csv('df_AU.csv',index_col=0, sep=";")
-    data1_BR = pd.read_csv('df_BR.csv',index_col=0, sep=";")
-    data1_DE = pd.read_csv('df_DE.csv',index_col=0, sep=";")
-    data1_FR = pd.read_csv('df_FR.csv',index_col=0, sep=";")
-    data1_IT = pd.read_csv('df_IT.csv',index_col=0, sep=";")
-    data1_NZ = pd.read_csv('df_NZ.csv',index_col=0, sep=";")
-    data1_PL = pd.read_csv('df_PL.csv',index_col=0, sep=";")
-    data1_SE = pd.read_csv('df_SE.csv',index_col=0, sep=";")
-    data1_UK = pd.read_csv('df_UK.csv',index_col=0, sep=";")
-    data1_US = pd.read_csv('df_US.csv',index_col=0, sep=";")
-    data1 = pd.concat([data1_AT, data1_AU])
-    data1 = pd.concat([data1, data1_BR])
-    data1 = pd.concat([data1, data1_DE])
-    data1 = pd.concat([data1, data1_FR])
-    data1 = pd.concat([data1, data1_IT])
-    data1 = pd.concat([data1, data1_NZ])
-    data1 = pd.concat([data1, data1_PL])
-    data1 = pd.concat([data1, data1_SE])
-    data1 = pd.concat([data1, data1_UK])
-    data1 = pd.concat([data1, data1_US])
+def load_data1():
+    data1_AT = pd.read_csv('df_AT.csv',sep = ";",index_col=0)
+    data1_AU = pd.read_csv('df_AU.csv',sep = ";",index_col=0)
+    data1_BR = pd.read_csv('df_BR.csv',sep = ";",index_col=0)
+    data1_DE = pd.read_csv('df_DE.csv',sep = ";",index_col=0)
+    data1_FR = pd.read_csv('df_FR.csv',sep = ";",index_col=0)
+    data1_IT = pd.read_csv('df_IT.csv',sep = ";",index_col=0)
+    data1_NZ = pd.read_csv('df_NZ.csv',sep = ";",index_col=0)
+    data1_PL = pd.read_csv('df_PL.csv',sep = ";",index_col=0)
+    data1_SE = pd.read_csv('df_SE.csv',sep = ";",index_col=0)
+    data1_UK = pd.read_csv('df_UK.csv',sep = ";",index_col=0)
+    data1_US = pd.read_csv('df_US.csv',sep = ";",index_col=0)
+    data1 = pd.concat([data1_AT,data1_AU])
+    data1 = pd.concat([data1,data1_BR])
+    data1 = pd.concat([data1,data1_DE])
+    data1 = pd.concat([data1,data1_FR])
+    data1 = pd.concat([data1,data1_IT])
+    data1 = pd.concat([data1,data1_NZ])
+    data1 = pd.concat([data1,data1_PL])
+    data1 = pd.concat([data1,data1_SE])
+    data1 = pd.concat([data1,data1_UK])
+    data1 = pd.concat([data1,data1_US])
     data1.country = data1.country.astype(object) 
     data1.wave = data1.wave.astype(object)
     data1 = data1.replace("I don't know",  float("nan"))
@@ -127,8 +130,8 @@ def load_data1(Col_Select):
 Vl = load_data2()
 
 df_Num = load_data3()
-Col_Select = df_Num.columns
-df_O = load_data1(Col_Select)  
+#Col_Select = df_Num.columns
+df_O = load_data1()  
 
 
 
@@ -204,7 +207,7 @@ def Title_Format(x):
 
 #********************************
 from PIL import Image 
-img = Image.open(r"C:\Work\COVID/covid.jpg") 
+img = Image.open("covid.jpg") 
 st.sidebar.image(img)
 st.sidebar.title("Covid & Confiance")
 
@@ -482,8 +485,8 @@ elif page==pages[1]:
         
         col1,col2 = st.columns((12,1))
         
-        with col2:        
-            CheckDef = st.checkbox('')
+        with col1:        
+            CheckDef = st.checkbox('Lock variable')
             
         with col1:    
             if CheckDef == True : 
@@ -724,4 +727,4 @@ elif page==pages[2]:
     
     
 
- 
+   
