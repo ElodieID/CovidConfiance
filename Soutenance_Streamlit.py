@@ -64,17 +64,17 @@ def load_data2():
          
 @st.cache(allow_output_mutation=True)
 def load_data3():
-    data3_AT = pd.read_csv('ndf_AT.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_AU = pd.read_csv('ndf_AU.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_BR = pd.read_csv('ndf_BR.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_DE = pd.read_csv('ndf_DE.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_FR = pd.read_csv('ndf_FR.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_IT = pd.read_csv('ndf_IT.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_NZ = pd.read_csv('ndf_NZ.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_PL = pd.read_csv('ndf_PL.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_SE = pd.read_csv('ndf_SE.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_UK = pd.read_csv('ndf_UK.csv',sep = ";",index_col=0, encoding='latin1')
-    data3_US = pd.read_csv('ndf_US.csv',sep = ";",index_col=0, encoding='latin1')
+    data3_AT = pd.read_csv('ndf_AT.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_AU = pd.read_csv('ndf_AU.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_BR = pd.read_csv('ndf_BR.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_DE = pd.read_csv('ndf_DE.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_FR = pd.read_csv('ndf_FR.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_IT = pd.read_csv('ndf_IT.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_NZ = pd.read_csv('ndf_NZ.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_PL = pd.read_csv('ndf_PL.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_SE = pd.read_csv('ndf_SE.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_UK = pd.read_csv('ndf_UK.csv',sep = ";",index_col=0, encoding ='latin1')
+    data3_US = pd.read_csv('ndf_US.csv',sep = ";",index_col=0, encoding ='latin1')
     data3 = pd.concat([data3_AT,data3_AU])
     data3 = pd.concat([data3,data3_BR])
     data3 = pd.concat([data3,data3_DE])
@@ -95,17 +95,17 @@ def load_data3():
 
 @st.cache(allow_output_mutation=True)
 def load_data1():
-    data1_AT = pd.read_csv('df_AT.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_AU = pd.read_csv('df_AU.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_BR = pd.read_csv('df_BR.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_DE = pd.read_csv('df_DE.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_FR = pd.read_csv('df_FR.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_IT = pd.read_csv('df_IT.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_NZ = pd.read_csv('df_NZ.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_PL = pd.read_csv('df_PL.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_SE = pd.read_csv('df_SE.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_UK = pd.read_csv('df_UK.csv',sep = ";",index_col=0, encoding='latin1')
-    data1_US = pd.read_csv('df_US.csv',sep = ";",index_col=0, encoding='latin1')
+    data1_AT = pd.read_csv('df_AT.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_AU = pd.read_csv('df_AU.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_BR = pd.read_csv('df_BR.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_DE = pd.read_csv('df_DE.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_FR = pd.read_csv('df_FR.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_IT = pd.read_csv('df_IT.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_NZ = pd.read_csv('df_NZ.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_PL = pd.read_csv('df_PL.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_SE = pd.read_csv('df_SE.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_UK = pd.read_csv('df_UK.csv',sep = ";",index_col=0, encoding ='latin1')
+    data1_US = pd.read_csv('df_US.csv',sep = ";",index_col=0, encoding ='latin1')
     data1 = pd.concat([data1_AT,data1_AU])
     data1 = pd.concat([data1,data1_BR])
     data1 = pd.concat([data1,data1_DE])
@@ -414,16 +414,15 @@ elif page==pages[1]:
         O_Country_To_Select = pd.DataFrame(df_O.country.value_counts().index,O_Country_TRI).sort_index().iloc[:,0]
         O_Country = st.sidebar.multiselect('Country name',(O_Country_To_Select),on_change=Default_Value(True))
         
+
         if len(O_Country) == 0: 
-            st.stop()
-            sys.exit()
+                st.stop()
+                sys.exit()
         df_O_Temp = df_O.loc[df_M.country == O_Country[0]].dropna(how='all', axis=1)
         if len(O_Country) > 1: 
-            for Country_ in O_Country[1:]:
-                df_O_Temp = pd.concat([df_O_Temp,df_O.loc[df_M.country == Country_].dropna(how='all', axis=1)],join ='inner') 
-    
-        df_O = df_O_Temp.dropna(how='all', axis=1)  
-        
+                for Country_ in O_Country[1:]:
+                    df_O_Temp = pd.concat([df_O_Temp,df_O.loc[df_M.country == Country_].dropna(how='all', axis=1)],join ='inner') 
+        df_O = df_O_Temp.dropna(how='all', axis=1)        
         
         st.sidebar.write('Wave of the survey')
         W1 = st.sidebar.checkbox('Wave 1 (Mars 2020)',on_change=Default_Value(True))
@@ -439,20 +438,18 @@ elif page==pages[1]:
         if len(O_Wave_Selected) == 0: 
             st.stop()
             sys.exit()
-        
+            
         df_O = df_O.loc[df_O.wave.isin(O_Wave_Selected)]
-        df_O.dropna(how='all', axis=1, inplace=True) 
-        
+        df_O = df_O.dropna(how='all', axis=1)
         dic_df_O ={}
         for W in O_Wave_Selected:
-            df_Temp = df_O.loc[df_O.wave == W]
-            dic_df_O[W] = df_Temp
-    
+                df_Temp = df_O.loc[df_O.wave == W]
+                dic_df_O[W] = df_Temp        
         df_O_Temp = dic_df_O[O_Wave_Selected[0]].dropna(how='all', axis=1)
         if len(O_Wave_Selected) > 1: 
-            for W in O_Wave_Selected[1:]:
-              df_O_Temp = pd.concat([df_O_Temp,df_O.loc[df_O.wave == W].dropna(how='all', axis=1)],join ='inner')  
-        df_O = df_O_Temp.dropna(how='all', axis=1) 
+             for W in O_Wave_Selected[1:]:
+               df_O_Temp = pd.concat([df_O_Temp,df_O.loc[df_O.wave == W].dropna(how='all', axis=1)],join ='inner') 
+        df_O = df_O_Temp.dropna(how='all', axis=1)      
         
         st.sidebar.write('How much do you trust…?:')
         B4_0 = st.sidebar.checkbox('The mayor of your town/city',disabled=not 'B4_0' in df_O.columns,on_change=Default_Value(True))
@@ -515,23 +512,23 @@ elif page==pages[1]:
                 Lst_Feats_val.append(val)
                 
         df_O = df_O.loc[:,['wave','country'] + Lst_Feats_Key + Lst_Confi_Key]
-        df_O.dropna(how='all', axis=1, inplace=True) 
-        
         replace = ['not at all','not a lot','somewhat','completely',"Don't trust at all","Don't trust a lot","Trust somewhat","Trust completely"]
         to_replace = [1,2,3,4,1,2,3,4]
         df_O[Lst_Confi_Key] = df_O[Lst_Confi_Key].replace(replace,to_replace)
-        
-        st.sidebar.write('Paramètres graphiques')
-        Leg = st.sidebar.checkbox("Légende")
-        
-        
         List_Labl_Txt = []
         for Labl in df_O[Lst_Feats_Key]: 
-            if IsNumTxt_In_List(list(df_O[Labl]))=='Txt'and Labl != 'AGE': 
+            #st.write('vvvvvAAA', df_O[Labl])
+            if IsNumTxt_In_List(list(df_O[Labl]))!='Num'and Labl != 'AGE': 
                 Bob_Temp  = pd.concat([df_Num[Labl].fillna('').astype(str),df_O[Labl]], axis=1,join = 'inner')                
                 df_O[Labl] = Bob_Temp.loc[Bob_Temp.isnull().any(axis=1)==False].agg('_-'.join, axis=1)
-                List_Labl_Txt.append(Labl)        
-                #st.write('TRI', df_O[Labl])
+                List_Labl_Txt.append(Labl)  
+            
+        df_O = df_O.dropna(how='all', axis=1)
+        
+        
+        
+        st.sidebar.write('Paramètres graphiques')
+        Leg = st.sidebar.checkbox("Légende")       
         
         O_Wave_Selected = [str(x) for x in O_Wave_Selected]            
         Vague = "Wave " +  ", ".join(O_Wave_Selected)
@@ -567,6 +564,8 @@ elif page==pages[1]:
         Color_Bar=['red','none','none','none']
         edgecolor = [None,'red','red','red']
         
+       
+        
         if len(O_Country) > 0 and len(O_Wave_Selected) > 0 and len(O_Conf_Selected) > 0:        
             if Abs_wave == False:
                 for Country_ in O_Country:
@@ -596,8 +595,9 @@ elif page==pages[1]:
                             Temp_GS = Temp_GS.sort_index()
                             #st.write('gsgffsddgs',Temp_GS) 
                             #Temp_GS = Temp_GS.dropna(how='any')
-                            if label in List_Labl_Txt:
-                                
+                            #st.write('Lst',List_Labl_Txt) 
+                            #st.write('Lab',label) 
+                            if label in List_Labl_Txt:                                
                                 Temp_GS["TRI"] = Temp_GS.index
                                 #st.write('TRI',Temp_GS)
                                 def TRI_GS(x):
@@ -726,5 +726,3 @@ elif page==pages[2]:
      st.image("https://static.streamlit.io/examples/dice.jpg")
     
     
-
-   
