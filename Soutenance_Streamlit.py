@@ -1,28 +1,19 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May  4 14:06:23 2022
-
-@author: E43557
-"""
-
 import pandas as pd 
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.pyplot as plt
 import seaborn as sns
 import squarify
 import re
 import prince
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import MinMaxScaler
 import streamlit as st
 import warnings
 warnings.filterwarnings('ignore')
 
 import plotly.express as px  
 import plotly.graph_objects as go
-from streamlit.scriptrunner import RerunData
-from streamlit.scriptrunner import RerunException
+#from streamlit.scriptrunner import RerunData
+#from streamlit.scriptrunner import RerunException
 import sys 
 #st.set_page_config(layout="wide")
 
@@ -70,8 +61,27 @@ def load_data2():
          
 @st.cache(allow_output_mutation=True)
 def load_data3():
-    data3 = pd.io.stata.read_stata('C:\\Work\\COVID\\CAUCP_4waves_v2.dta',convert_categoricals=False)
-    data3 = data3.drop(columns = 'PARTYID1')
+    data3_AT = pd.read_csv('C:\\Work\\COVID\\ndf_AT.csv',index_col=0)
+    data3_AU = pd.read_csv('C:\\Work\\COVID\\ndf_AU.csv',index_col=0)
+    data3_BR = pd.read_csv('C:\\Work\\COVID\\ndf_BR.csv',index_col=0)
+    data3_DE = pd.read_csv('C:\\Work\\COVID\\ndf_BE.csv',index_col=0)
+    data3_FR = pd.read_csv('C:\\Work\\COVID\\ndf_FR.csv',index_col=0)
+    data3_IT = pd.read_csv('C:\\Work\\COVID\\ndf_IT.csv',index_col=0)
+    data3_NZ = pd.read_csv('C:\\Work\\COVID\\ndf_NZ.csv',index_col=0)
+    data3_PL = pd.read_csv('C:\\Work\\COVID\\ndf_PL.csv',index_col=0)
+    data3_SE = pd.read_csv('C:\\Work\\COVID\\ndf_SE.csv',index_col=0)
+    data3_UK = pd.read_csv('C:\\Work\\COVID\\ndf_UK.csv',index_col=0)
+    data3_US = pd.read_csv('C:\\Work\\COVID\\ndf_US.csv',index_col=0)
+    data3 = data3_AT.concat(data3_AU)
+    data3 = data3.concat(data3_BR)
+    data3 = data3.concat(data3_DE)
+    data3 = data3.concat(data3_FR)
+    data3 = data3.concat(data3_IT)
+    data3 = data3.concat(data3_NZ)
+    data3 = data3.concat(data3_PL)
+    data3 = data3.concat(data3_SE)
+    data3 = data3.concat(data3_UK)
+    data3 = data3.concat(data3_US)
     data3 = data3.replace('',  float("nan"))
     data3 = data3.replace('NA',  float("nan"))
     data3 = data3.replace('(NA)',  float("nan"))
@@ -82,7 +92,27 @@ def load_data3():
 
 @st.cache(allow_output_mutation=True)
 def load_data1(Col_Select):
-    data1 =  pd.io.stata.read_stata('C:\\Work\\COVID\\CAUCP_4waves_v2.dta',columns = Col_Select)
+    data1_AT = pd.read_csv('C:\\Work\\COVID\\df_AT.csv',index_col=0)
+    data1_AU = pd.read_csv('C:\\Work\\COVID\\df_AU.csv',index_col=0)
+    data1_BR = pd.read_csv('C:\\Work\\COVID\\df_BR.csv',index_col=0)
+    data1_DE = pd.read_csv('C:\\Work\\COVID\\df_BE.csv',index_col=0)
+    data1_FR = pd.read_csv('C:\\Work\\COVID\\df_FR.csv',index_col=0)
+    data1_IT = pd.read_csv('C:\\Work\\COVID\\df_IT.csv',index_col=0)
+    data1_NZ = pd.read_csv('C:\\Work\\COVID\\df_NZ.csv',index_col=0)
+    data1_PL = pd.read_csv('C:\\Work\\COVID\\df_PL.csv',index_col=0)
+    data1_SE = pd.read_csv('C:\\Work\\COVID\\df_SE.csv',index_col=0)
+    data1_UK = pd.read_csv('C:\\Work\\COVID\\df_UK.csv',index_col=0)
+    data1_US = pd.read_csv('C:\\Work\\COVID\\df_US.csv',index_col=0)
+    data1 = data1_AT.concat(data1_AU)
+    data1 = data1.concat(data1_BR)
+    data1 = data1.concat(data1_DE)
+    data1 = data1.concat(data1_FR)
+    data1 = data1.concat(data1_IT)
+    data1 = data1.concat(data1_NZ)
+    data1 = data1.concat(data1_PL)
+    data1 = data1.concat(data1_SE)
+    data1 = data1.concat(data1_UK)
+    data1 = data1.concat(data1_US)
     data1.country = data1.country.astype(object) 
     data1.wave = data1.wave.astype(object)
     data1 = data1.replace("I don't know",  float("nan"))
@@ -694,4 +724,4 @@ elif page==pages[2]:
     
     
 
-   
+ 
