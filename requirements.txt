@@ -7,5 +7,4 @@ seaborn
 squarify
 streamlit
 plotly
-re
 openpyxl
